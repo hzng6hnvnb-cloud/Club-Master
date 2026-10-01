@@ -29,15 +29,13 @@
 
     <section class="hero">
 
-        <div>
-            <p class="small-title">مدير ناديك</p>
+        <p class="small-title">مدير ناديك</p>
 
-            <h1>Club Master 🏆</h1>
+        <h1>Club Master 🏆</h1>
 
-            <p>
-                كوّن تشكيلتك، تعاقد مع النجوم، وحقق البطولات.
-            </p>
-        </div>
+        <p>
+            كوّن فريقك، تعاقد مع النجوم، وحقق البطولات.
+        </p>
 
     </section>
 
@@ -45,7 +43,7 @@
     <section class="stats">
 
         <div class="stat">
-            <span>👥 لاعبين</span>
+            <span>👥 اللاعبين</span>
             <strong id="playerCount">0</strong>
         </div>
 
@@ -69,73 +67,74 @@
         <div class="section-header">
 
             <div>
-                <h2>🏟️ تشكيلتك</h2>
-                <span>اسحب اللاعبين إلى الملعب</span>
+                <h2>🏟️ الملعب</h2>
+                <span>تشكيلتك الأساسية</span>
             </div>
 
             <select id="formation">
 
-                <option value="4-3-3">4-3-3</option>
-                <option value="4-4-2">4-4-2</option>
-                <option value="4-2-3-1">4-2-3-1</option>
-                <option value="3-4-3">3-4-3</option>
+                <option value="433">4-3-3</option>
+                <option value="442">4-4-2</option>
+                <option value="4231">4-2-3-1</option>
 
             </select>
 
         </div>
 
 
-        <div class="pitch" id="pitch">
+        <div class="pitch">
 
-            <div class="pitch-line center-line"></div>
-            <div class="pitch-circle"></div>
+            <div class="line center-line"></div>
 
-            <div class="goal top-goal"></div>
-            <div class="goal bottom-goal"></div>
+            <div class="circle"></div>
+
+            <div class="goal goal-top"></div>
+
+            <div class="goal goal-bottom"></div>
 
 
-            <div class="position gk" data-position="GK">
-                <span>حارس</span>
+            <div class="position p1">
+                حارس
             </div>
 
-            <div class="position lb" data-position="LB">
-                <span>دفاع</span>
+            <div class="position p2">
+                دفاع
             </div>
 
-            <div class="position cb1" data-position="CB">
-                <span>دفاع</span>
+            <div class="position p3">
+                دفاع
             </div>
 
-            <div class="position cb2" data-position="CB">
-                <span>دفاع</span>
+            <div class="position p4">
+                دفاع
             </div>
 
-            <div class="position rb" data-position="RB">
-                <span>دفاع</span>
+            <div class="position p5">
+                دفاع
             </div>
 
-            <div class="position cm1" data-position="CM">
-                <span>وسط</span>
+            <div class="position p6">
+                وسط
             </div>
 
-            <div class="position cm2" data-position="CM">
-                <span>وسط</span>
+            <div class="position p7">
+                وسط
             </div>
 
-            <div class="position cm3" data-position="CM">
-                <span>وسط</span>
+            <div class="position p8">
+                وسط
             </div>
 
-            <div class="position lw" data-position="LW">
-                <span>جناح</span>
+            <div class="position p9">
+                جناح
             </div>
 
-            <div class="position st" data-position="ST">
-                <span>مهاجم</span>
+            <div class="position p10">
+                مهاجم
             </div>
 
-            <div class="position rw" data-position="RW">
-                <span>جناح</span>
+            <div class="position p11">
+                جناح
             </div>
 
         </div>
@@ -143,7 +142,7 @@
     </section>
 
 
-    <!-- سوق اللاعبين -->
+    <!-- السوق -->
 
     <section class="section">
 
@@ -151,13 +150,19 @@
 
             <div>
                 <h2>🛒 سوق الانتقالات</h2>
-                <span>اختر اللاعب لإضافته إلى فريقك</span>
+                <span id="searchCount">جميع اللاعبين</span>
             </div>
+
+        </div>
+
+
+        <div class="search-box">
 
             <input
                 id="search"
-                type="search"
-                placeholder="ابحث عن لاعب..."
+                type="text"
+                placeholder="🔎 ابحث عن لاعب أو نادي أو جنسية..."
+                autocomplete="off"
             >
 
         </div>
@@ -165,16 +170,25 @@
 
         <div id="market" class="players-grid"></div>
 
+
+        <div id="noResults" class="no-results">
+
+            😕 ما لقينا لاعب بهذا الاسم
+
+        </div>
+
     </section>
 
 
-    <!-- تفاصيل اللاعب -->
+    <!-- معلومات اللاعب -->
 
     <div id="playerModal" class="modal">
 
         <div class="modal-box">
 
-            <button class="close" onclick="closePlayer()">
+            <button
+                class="close"
+                id="closeModal">
                 ×
             </button>
 
@@ -184,36 +198,37 @@
 
             <p id="modalInfo"></p>
 
+
             <div class="attributes">
 
                 <div>
                     السرعة
-                    <strong id="pace"></strong>
+                    <strong id="pace">0</strong>
                 </div>
 
                 <div>
                     التسديد
-                    <strong id="shooting"></strong>
+                    <strong id="shooting">0</strong>
                 </div>
 
                 <div>
                     التمرير
-                    <strong id="passing"></strong>
+                    <strong id="passing">0</strong>
                 </div>
 
                 <div>
                     المراوغة
-                    <strong id="dribbling"></strong>
+                    <strong id="dribbling">0</strong>
                 </div>
 
                 <div>
                     الدفاع
-                    <strong id="defending"></strong>
+                    <strong id="defending">0</strong>
                 </div>
 
                 <div>
                     البدنية
-                    <strong id="physical"></strong>
+                    <strong id="physical">0</strong>
                 </div>
 
             </div>
@@ -223,12 +238,14 @@
     </div>
 
 
+    <!-- المباراة -->
+
     <section class="match-section">
 
         <h2>⚽ المباراة</h2>
 
         <p>
-            لازم يكون عندك 11 لاعب في الملعب.
+            كوّن تشكيلة من 11 لاعبًا ثم العب المباراة.
         </p>
 
         <button id="playMatch">
@@ -246,4 +263,5 @@
 <script src="app.js"></script>
 
 </body>
+
 </html>
