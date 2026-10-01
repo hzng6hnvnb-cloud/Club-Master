@@ -14,7 +14,7 @@ body {
 .topbar {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 50;
 
     display: flex;
     justify-content: space-between;
@@ -22,12 +22,12 @@ body {
 
     padding: 18px 6%;
 
-    background: rgba(7, 22, 14, .95);
+    background: rgba(7, 22, 14, .96);
     border-bottom: 1px solid #1d3b2a;
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 25px;
     font-weight: bold;
 }
 
@@ -47,19 +47,13 @@ body {
 }
 
 .container {
-    width: min(1100px, 92%);
+    width: min(1150px, 92%);
     margin: auto;
-    padding: 30px 0 60px;
+    padding: 30px 0 70px;
 }
 
 .hero {
-    min-height: 230px;
-
-    display: flex;
-    align-items: center;
-
     padding: 35px;
-
     border-radius: 25px;
 
     background:
@@ -76,7 +70,7 @@ body {
 
 .hero h1 {
     font-size: 48px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .hero p {
@@ -87,18 +81,15 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
-
     margin-top: 20px;
 }
 
 .stat {
     padding: 22px;
-
     text-align: center;
 
     background: #0c1d13;
     border: 1px solid #1c3828;
-
     border-radius: 18px;
 }
 
@@ -108,7 +99,6 @@ body {
 
 .stat strong {
     display: block;
-
     margin-top: 8px;
 
     font-size: 28px;
@@ -123,14 +113,230 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    gap: 15px;
     margin-bottom: 18px;
 }
 
 .section-header span {
+    display: block;
     color: #899a90;
     font-size: 14px;
+    margin-top: 5px;
 }
+
+select,
+input {
+    background: #0d2015;
+    color: white;
+
+    border: 1px solid #28553a;
+
+    padding: 12px 15px;
+    border-radius: 10px;
+
+    outline: none;
+}
+
+input {
+    width: 220px;
+}
+
+
+/* الملعب */
+
+.pitch {
+    position: relative;
+
+    width: 100%;
+    max-width: 850px;
+    height: 650px;
+
+    margin: auto;
+
+    overflow: hidden;
+
+    border: 5px solid #d8f3df;
+    border-radius: 20px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #16763c 0px,
+            #16763c 80px,
+            #188344 80px,
+            #188344 160px
+        );
+}
+
+.pitch-line {
+    position: absolute;
+    background: rgba(255,255,255,.8);
+}
+
+.center-line {
+    width: 100%;
+    height: 3px;
+
+    top: 50%;
+    right: 0;
+}
+
+.pitch-circle {
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    border: 3px solid rgba(255,255,255,.8);
+    border-radius: 50%;
+
+    top: calc(50% - 75px);
+    right: calc(50% - 75px);
+}
+
+.goal {
+    position: absolute;
+
+    width: 150px;
+    height: 60px;
+
+    left: calc(50% - 75px);
+
+    border: 3px solid white;
+}
+
+.top-goal {
+    top: -3px;
+    border-top: none;
+}
+
+.bottom-goal {
+    bottom: -3px;
+    border-bottom: none;
+}
+
+
+/* مراكز اللاعبين */
+
+.position {
+    position: absolute;
+
+    width: 78px;
+    height: 78px;
+
+    transform: translate(50%, -50%);
+
+    border-radius: 50%;
+
+    background: #07140c;
+
+    border: 3px solid white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.35);
+
+    transition: .2s;
+}
+
+.position:hover {
+    transform: translate(50%, -50%) scale(1.08);
+}
+
+.position img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+}
+
+.position .player-label {
+    position: absolute;
+
+    bottom: -27px;
+
+    background: #06100b;
+
+    padding: 4px 8px;
+
+    border-radius: 7px;
+
+    white-space: nowrap;
+
+    font-size: 11px;
+}
+
+
+/* أماكن التشكيلة */
+
+.gk {
+    right: 50%;
+    bottom: 5%;
+}
+
+.lb {
+    right: 12%;
+    bottom: 23%;
+}
+
+.cb1 {
+    right: 37%;
+    bottom: 20%;
+}
+
+.cb2 {
+    right: 63%;
+    bottom: 20%;
+}
+
+.rb {
+    right: 88%;
+    bottom: 23%;
+}
+
+.cm1 {
+    right: 25%;
+    top: 52%;
+}
+
+.cm2 {
+    right: 50%;
+    top: 57%;
+}
+
+.cm3 {
+    right: 75%;
+    top: 52%;
+}
+
+.lw {
+    right: 17%;
+    top: 25%;
+}
+
+.st {
+    right: 50%;
+    top: 18%;
+}
+
+.rw {
+    right: 83%;
+    top: 25%;
+}
+
+
+/* اللاعبين */
 
 .players-grid {
     display: grid;
@@ -140,9 +346,10 @@ body {
 
 .player-card {
     background: #0c1b12;
+
     border: 1px solid #1e3b2a;
 
-    padding: 18px;
+    padding: 15px;
 
     border-radius: 18px;
 
@@ -154,14 +361,23 @@ body {
     border-color: #39e77d;
 }
 
+.player-image {
+    width: 100%;
+    height: 190px;
+
+    object-fit: cover;
+
+    border-radius: 13px;
+
+    background: #14291c;
+}
+
 .player-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
 
-.player-icon {
-    font-size: 35px;
+    margin-top: 12px;
 }
 
 .rating {
@@ -177,13 +393,13 @@ body {
 .player-name {
     font-size: 18px;
     font-weight: bold;
-
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
-.position {
-    color: #8ea197;
+.player-info {
+    color: #9aaa9f;
     font-size: 13px;
+    line-height: 1.8;
 
     margin-top: 5px;
 }
@@ -191,8 +407,7 @@ body {
 .price {
     color: #ffd85b;
     font-weight: bold;
-
-    margin: 15px 0;
+    margin: 12px 0;
 }
 
 button {
@@ -221,34 +436,112 @@ button:hover {
     color: white;
 }
 
-.sell:hover {
-    background: #ed5c5c;
+
+/* النافذة */
+
+.modal {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    background: rgba(0,0,0,.8);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
 }
 
-.squad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
+.modal-box {
+    position: relative;
 
-.squad-player {
-    padding: 17px;
+    width: min(450px, 100%);
 
-    border-radius: 14px;
+    padding: 25px;
 
-    background: #10251a;
-    border: 1px solid #234732;
-}
+    border-radius: 22px;
 
-.empty {
-    grid-column: 1 / -1;
+    background: #0c1d13;
+    border: 1px solid #2c6542;
 
     text-align: center;
-
-    padding: 35px;
-
-    color: #7e9085;
 }
+
+.modal-box img {
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 4px solid #35e77d;
+}
+
+.modal-box h2 {
+    margin-top: 15px;
+}
+
+.modal-box p {
+    color: #9aaa9f;
+    margin-top: 8px;
+}
+
+.close {
+    position: absolute;
+
+    top: 12px;
+    left: 12px;
+
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    background: #c94c4c;
+    color: white;
+
+    font-size: 25px;
+}
+
+.attributes {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.attributes div {
+    background: #12271a;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    color: #9aaa9f;
+}
+
+.attributes strong {
+    display: block;
+
+    color: #6eff9c;
+
+    font-size: 20px;
+
+    margin-top: 5px;
+}
+
+
+/* المباراة */
 
 .match-section {
     margin-top: 40px;
@@ -260,6 +553,7 @@ button:hover {
     border-radius: 22px;
 
     background: linear-gradient(135deg, #102c1b, #0a1710);
+
     border: 1px solid #28583a;
 }
 
@@ -282,18 +576,25 @@ button:hover {
     border-radius: 15px;
 
     background: #0b1d12;
+
     border: 1px solid #2b6240;
 }
 
-@media (max-width: 850px) {
+
+@media(max-width: 850px) {
 
     .players-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .pitch {
+        height: 580px;
+    }
+
 }
 
-@media (max-width: 600px) {
+
+@media(max-width: 600px) {
 
     .topbar {
         flex-direction: column;
@@ -312,8 +613,23 @@ button:hover {
         grid-template-columns: 1fr;
     }
 
-    .squad {
-        grid-template-columns: 1fr;
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    .pitch {
+        height: 500px;
+    }
+
+    .position {
+        width: 60px;
+        height: 60px;
+        font-size: 9px;
     }
 
 }
