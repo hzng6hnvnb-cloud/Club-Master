@@ -1,0 +1,319 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #06100b;
+    color: white;
+    min-height: 100vh;
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 6%;
+
+    background: rgba(7, 22, 14, .95);
+    border-bottom: 1px solid #1d3b2a;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #35e77d;
+}
+
+.money {
+    background: #10271a;
+    border: 1px solid #275239;
+
+    padding: 10px 15px;
+    border-radius: 12px;
+
+    color: #72ff9f;
+    font-weight: bold;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: auto;
+    padding: 30px 0 60px;
+}
+
+.hero {
+    min-height: 230px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 35px;
+
+    border-radius: 25px;
+
+    background:
+        radial-gradient(circle at 80% 30%, #1b6338, transparent 35%),
+        linear-gradient(135deg, #102e1c, #07130c);
+
+    border: 1px solid #245237;
+}
+
+.small-title {
+    color: #6eff9c;
+    margin-bottom: 8px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #a7b8ad;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+.stat {
+    padding: 22px;
+
+    text-align: center;
+
+    background: #0c1d13;
+    border: 1px solid #1c3828;
+
+    border-radius: 18px;
+}
+
+.stat span {
+    color: #9aaa9f;
+}
+
+.stat strong {
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 28px;
+    color: #63ff96;
+}
+
+.section {
+    margin-top: 40px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.section-header span {
+    color: #899a90;
+    font-size: 14px;
+}
+
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.player-card {
+    background: #0c1b12;
+    border: 1px solid #1e3b2a;
+
+    padding: 18px;
+
+    border-radius: 18px;
+
+    transition: .2s;
+}
+
+.player-card:hover {
+    transform: translateY(-4px);
+    border-color: #39e77d;
+}
+
+.player-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-icon {
+    font-size: 35px;
+}
+
+.rating {
+    background: #16492c;
+    color: #70ff9d;
+
+    padding: 7px 10px;
+    border-radius: 9px;
+
+    font-weight: bold;
+}
+
+.player-name {
+    font-size: 18px;
+    font-weight: bold;
+
+    margin-top: 15px;
+}
+
+.position {
+    color: #8ea197;
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+.price {
+    color: #ffd85b;
+    font-weight: bold;
+
+    margin: 15px 0;
+}
+
+button {
+    width: 100%;
+
+    border: none;
+    border-radius: 11px;
+
+    padding: 12px;
+
+    background: #32df78;
+    color: #06100b;
+
+    font-weight: bold;
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background: #5af493;
+}
+
+.sell {
+    background: #c94c4c;
+    color: white;
+}
+
+.sell:hover {
+    background: #ed5c5c;
+}
+
+.squad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.squad-player {
+    padding: 17px;
+
+    border-radius: 14px;
+
+    background: #10251a;
+    border: 1px solid #234732;
+}
+
+.empty {
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    padding: 35px;
+
+    color: #7e9085;
+}
+
+.match-section {
+    margin-top: 40px;
+
+    padding: 30px;
+
+    text-align: center;
+
+    border-radius: 22px;
+
+    background: linear-gradient(135deg, #102c1b, #0a1710);
+    border: 1px solid #28583a;
+}
+
+.match-section p {
+    color: #9bac9f;
+    margin: 10px 0 20px;
+}
+
+.match-section button {
+    width: min(300px, 100%);
+}
+
+.match-result {
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    background: #0b1d12;
+    border: 1px solid #2b6240;
+}
+
+@media (max-width: 850px) {
+
+    .players-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .topbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero h1 {
+        font-size: 35px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .players-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .squad {
+        grid-template-columns: 1fr;
+    }
+
+}
