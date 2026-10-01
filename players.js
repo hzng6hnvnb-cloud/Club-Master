@@ -4,20 +4,13 @@ let matches = 0;
 
 let squad = [];
 
-let selectedPlayer = null;
-
-
 const market = document.getElementById("market");
 
-const moneyElement = document.getElementById("money");
-
-const playerCount = document.getElementById("playerCount");
-
-const teamRating = document.getElementById("teamRating");
-
-const matchesElement = document.getElementById("matches");
-
 const search = document.getElementById("search");
+
+const noResults = document.getElementById("noResults");
+
+const searchCount = document.getElementById("searchCount");
 
 
 function formatMoney(number) {
@@ -31,110 +24,225 @@ function renderMarket(list = players) {
 
     market.innerHTML = "";
 
+    searchCount.textContent =
+        `${list.length} لاعب`;
+
+
+    if (list.length === 0) {
+
+        noResults.style.display = "block";
+
+        return;
+
+    }
+
+
+    noResults.style.display = "none";
+
+
     list.forEach(player => {
 
-        const owned = squad.some(
-            p => p.id === player.id
-        );
+        const owned =
+            squad.some(
+                item => item.id === player.id
+            );
 
 
-        market.innerHTML += `
+        const card = document.createElement("div");
 
-            <div class="player-card">
-
-                <img
-                    class="player-image"
-                    src="${player.image}"
-                    alt="${player.name}"
-                >
-
-                <div class="player-head">
-
-                    <span class="rating">
-                        ${player.rating}
-                    </span>
-
-                    <span>
-                        ⭐ الطاقة
-                    </span>
-
-                </div>
+        card.className = "player-card";
 
 
-                <div class="player-name">
-                    ${player.name}
-                </div>
+        card.innerHTML = `
 
+            <img
+                class="player-image"
+                src="${player.image}"
+                alt="${player.name}"
+            >
 
-                <div class="player-info">
+            <div class="player-top">
 
-                    ${player.nationality}<br>
+                <span class="rating">
+                    ⭐ ${player.rating}
+                </span>
 
-                    🏟️ ${player.club}<br>
-
-                    📍 ${player.position}
-
-                </div>
-
-
-                <div class="price">
-                    💰 ${formatMoney(player.price)} ريال
-                </div>
-
-
-                <button onclick="showPlayer(${player.id})">
-
-                    عرض اللاعب
-
-                </button>
-
-
-                <br><br>
-
-
-                ${
-                    owned
-
-                    ?
-
-                    `<button
-                        class="sell"
-                        onclick="sellPlayer(${player.id})">
-
-                        بيع اللاعب
-
-                    </button>`
-
-                    :
-
-                    `<button
-                        onclick="buyPlayer(${player.id})">
-
-                        شراء اللاعب
-
-                    </button>`
-                }
+                <span>
+                    ${player.position}
+                </span>
 
             </div>
 
+
+            <div class="player-name">
+                ${player.name}
+            </div>
+
+
+            <div class="player-info">
+
+                🌍 ${player.nationality}<br>
+
+                🏟️ ${player.club}<br>
+
+                📍 ${player.position}
+
+            </div>
+
+
+            <div class="price">
+                💰 ${formatMoney(player.price)} ريال
+            </div>
+
+
+            <button
+                class="details-button"
+                data-id="${player.id}">
+
+                عرض اللاعب
+
+            </button>
+
+
+            <button
+                class="${owned ? "sell" : ""}"
+                data-action="${owned ? "sell" : "buy"}"
+                data-id="${player.id}">
+
+                ${owned ? "بيع اللاعب" : "شراء اللاعب"}
+
+            </button>
+
         `;
+
+
+        market.appendChild(card);
 
     });
 
 }
 
 
+/*
+    البحث
+*/
+
+search.addEventListener("input", function () {
+
+    const value =
+        search.value
+            .trim()
+            .toLowerCase();
+
+
+    if (value === "") {
+
+        renderMarket(players);
+
+        return;
+
+    }
+
+
+    const filtered =
+        players.filter(player => {
+
+            const name =
+                String(player.name || "")
+                    .toLowerCase();
+
+            const club =
+                String(player.club || "")
+                    .toLowerCase();
+
+            const nationality =
+                String(player.nationality || "")
+                    .toLowerCase();
+
+            const position =
+                String(player.position || "")
+                    .toLowerCase();
+
+
+            return (
+                name.includes(value) ||
+                club.includes(value) ||
+                nationality.includes(value) ||
+                position.includes(value)
+            );
+
+        });
+
+
+    renderMarket(filtered);
+
+});
+
+
+/*
+    أزرار السوق
+*/
+
+market.addEventListener("click", function(event) {
+
+    const button =
+        event.target.closest("button");
+
+
+    if (!button) return;
+
+
+    const id =
+        Number(button.dataset.id);
+
+
+    if (button.classList.contains("details-button")) {
+
+        showPlayer(id);
+
+        return;
+
+    }
+
+
+    if (button.dataset.action === "buy") {
+
+        buyPlayer(id);
+
+        return;
+
+    }
+
+
+    if (button.dataset.action === "sell") {
+
+        sellPlayer(id);
+
+    }
+
+});
+
+
+/*
+    شراء لاعب
+*/
+
 function buyPlayer(id) {
 
-    const player = players.find(
-        p => p.id === id
-    );
+    const player =
+        players.find(
+            item => item.id === id
+        );
 
 
     if (!player) return;
 
 
-    if (squad.some(p => p.id === id)) {
+    if (
+        squad.some(
+            item => item.id === id
+        )
+    ) {
 
         alert("هذا اللاعب موجود عندك بالفعل.");
 
@@ -145,7 +253,7 @@ function buyPlayer(id) {
 
     if (money < player.price) {
 
-        alert("ميزانيتك ما تكفي.");
+        alert("ميزانيتك ما تكفي لشراء هذا اللاعب.");
 
         return;
 
@@ -162,24 +270,31 @@ function buyPlayer(id) {
 }
 
 
+/*
+    بيع لاعب
+*/
+
 function sellPlayer(id) {
 
-    const player = squad.find(
-        p => p.id === id
-    );
+    const player =
+        squad.find(
+            item => item.id === id
+        );
 
 
     if (!player) return;
 
 
-    money += Math.floor(
-        player.price * 0.8
-    );
+    money +=
+        Math.floor(
+            player.price * 0.8
+        );
 
 
-    squad = squad.filter(
-        p => p.id !== id
-    );
+    squad =
+        squad.filter(
+            item => item.id !== id
+        );
 
 
     update();
@@ -187,48 +302,112 @@ function sellPlayer(id) {
 }
 
 
+/*
+    تحديث الموقع
+*/
+
 function update() {
 
-    moneyElement.textContent =
+    document.getElementById("money").textContent =
         formatMoney(money);
 
 
-    playerCount.textContent =
+    document.getElementById("playerCount").textContent =
         squad.length;
 
 
-    matchesElement.textContent =
+    document.getElementById("matches").textContent =
         matches;
 
 
     let rating = 0;
 
 
-    if (squad.length) {
+    if (squad.length > 0) {
 
-        rating = Math.round(
+        rating =
+            Math.round(
 
-            squad.reduce(
-                (total, player) =>
-                    total + player.rating,
-                0
-            ) / squad.length
+                squad.reduce(
+                    (total, player) =>
+                        total + player.rating,
+                    0
+                ) / squad.length
 
-        );
+            );
 
     }
 
 
-    teamRating.textContent =
+    document.getElementById("teamRating").textContent =
         rating;
 
 
-    renderMarket();
+    renderMarket(
+        getCurrentSearchResults()
+    );
+
 
     renderPitch();
 
 }
 
+
+/*
+    الحفاظ على نتائج البحث بعد الشراء والبيع
+*/
+
+function getCurrentSearchResults() {
+
+    const value =
+        search.value
+            .trim()
+            .toLowerCase();
+
+
+    if (!value) {
+
+        return players;
+
+    }
+
+
+    return players.filter(player => {
+
+        return (
+
+            String(player.name || "")
+                .toLowerCase()
+                .includes(value)
+
+            ||
+
+            String(player.club || "")
+                .toLowerCase()
+                .includes(value)
+
+            ||
+
+            String(player.nationality || "")
+                .toLowerCase()
+                .includes(value)
+
+            ||
+
+            String(player.position || "")
+                .toLowerCase()
+                .includes(value)
+
+        );
+
+    });
+
+}
+
+
+/*
+    عرض اللاعبين في الملعب
+*/
 
 function renderPitch() {
 
@@ -239,47 +418,66 @@ function renderPitch() {
     positions.forEach(position => {
 
         position.innerHTML =
-            `<span>${position.dataset.position}</span>`;
+            position.dataset.original ||
+            position.textContent;
 
     });
 
 
-    squad.slice(0, 11).forEach(
-        (player, index) => {
+    squad
+        .slice(0, 11)
+        .forEach(
+            (player, index) => {
 
-            if (!positions[index]) return;
+                if (!positions[index]) return;
 
 
-            positions[index].innerHTML = `
+                positions[index].innerHTML = `
 
-                <img
-                    src="${player.image}"
-                    alt="${player.name}"
-                >
+                    <img
+                        src="${player.image}"
+                        alt="${player.name}"
+                        style="
+                            width:100%;
+                            height:100%;
+                            object-fit:cover;
+                            border-radius:50%;
+                        "
+                    >
 
-                <span class="player-label">
-                    ${player.name}
-                </span>
+                    <span style="
+                        position:absolute;
+                        bottom:-25px;
+                        background:#06100b;
+                        padding:3px 6px;
+                        border-radius:5px;
+                        white-space:nowrap;
+                        font-size:9px;
+                    ">
+                        ${player.name}
+                    </span>
 
-            `;
+                `;
 
-        }
-    );
+            }
+        );
 
 }
 
 
+/*
+    معلومات اللاعب
+*/
+
 function showPlayer(id) {
 
-    const player = players.find(
-        p => p.id === id
-    );
+    const player =
+        players.find(
+            item => item.id === id
+        );
 
 
     if (!player) return;
-
-
-    selectedPlayer = player;
 
 
     document.getElementById("modalImage").src =
@@ -291,7 +489,6 @@ function showPlayer(id) {
 
 
     document.getElementById("modalInfo").textContent =
-
         `${player.nationality} • ${player.club} • ${player.position} • ⭐ ${player.rating}`;
 
 
@@ -325,43 +522,49 @@ function showPlayer(id) {
 }
 
 
-function closePlayer() {
+/*
+    إغلاق معلومات اللاعب
+*/
 
-    document.getElementById("playerModal").style.display =
-        "none";
+document
+    .getElementById("closeModal")
+    .addEventListener(
+        "click",
+        function() {
 
-}
+            document.getElementById("playerModal").style.display =
+                "none";
 
-
-search.addEventListener(
-    "input",
-    () => {
-
-        const value =
-            search.value.trim().toLowerCase();
-
-
-        const filtered =
-            players.filter(player =>
-
-                player.name
-                    .toLowerCase()
-                    .includes(value)
-
-                ||
-
-                player.club
-                    .toLowerCase()
-                    .includes(value)
-
-            );
+        }
+    );
 
 
-        renderMarket(filtered);
+/*
+    إغلاق النافذة بالضغط خارجها
+*/
 
-    }
-);
+document
+    .getElementById("playerModal")
+    .addEventListener(
+        "click",
+        function(event) {
 
+            if (
+                event.target.id === "playerModal"
+            ) {
+
+                event.currentTarget.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+
+/*
+    المباراة
+*/
 
 document
     .getElementById("playMatch")
@@ -376,7 +579,7 @@ function playMatch() {
     if (squad.length < 11) {
 
         alert(
-            "لازم يكون عندك 11 لاعب في التشكيلة قبل المباراة."
+            "لازم تشتري 11 لاعب قبل بداية المباراة."
         );
 
         return;
@@ -406,10 +609,12 @@ function playMatch() {
     const yourGoals =
         Math.max(
             0,
-            Math.round(
+            Math.floor(
                 (rating - opponent) / 10
             ) +
-            Math.floor(Math.random() * 3)
+            Math.floor(
+                Math.random() * 3
+            )
         );
 
 
@@ -436,18 +641,13 @@ function playMatch() {
 
 
         result.innerHTML = `
-
             <h2>🏆 فوز!</h2>
-
+            <p>${yourGoals} - ${opponentGoals}</p>
             <p>
-                ${yourGoals} - ${opponentGoals}
+                💰 حصلت على
+                ${formatMoney(reward)}
+                ريال
             </p>
-
-            <p>
-                💰 مكافأة الفوز:
-                ${formatMoney(reward)} ريال
-            </p>
-
         `;
 
     }
@@ -455,13 +655,8 @@ function playMatch() {
     else if (yourGoals < opponentGoals) {
 
         result.innerHTML = `
-
             <h2>😔 خسارة</h2>
-
-            <p>
-                ${yourGoals} - ${opponentGoals}
-            </p>
-
+            <p>${yourGoals} - ${opponentGoals}</p>
         `;
 
     }
@@ -474,18 +669,13 @@ function playMatch() {
 
 
         result.innerHTML = `
-
             <h2>🤝 تعادل</h2>
-
+            <p>${yourGoals} - ${opponentGoals}</p>
             <p>
-                ${yourGoals} - ${opponentGoals}
+                💰 حصلت على
+                ${formatMoney(reward)}
+                ريال
             </p>
-
-            <p>
-                💰 مكافأة:
-                ${formatMoney(reward)} ريال
-            </p>
-
         `;
 
     }
@@ -496,31 +686,16 @@ function playMatch() {
 }
 
 
+/*
+    البداية
+*/
+
 document
     .querySelectorAll(".position")
     .forEach(position => {
 
-        position.addEventListener(
-            "click",
-            () => {
-
-                if (!squad.length) {
-
-                    alert(
-                        "اشترِ لاعبين أولًا من سوق الانتقالات."
-                    );
-
-                    return;
-
-                }
-
-
-                alert(
-                    "المرحلة التالية بنخلي اللاعب ينحط في هذا المركز بالسحب والإفلات."
-                );
-
-            }
-        );
+        position.dataset.original =
+            position.textContent;
 
     });
 
